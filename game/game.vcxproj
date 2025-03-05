@@ -62,7 +62,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp23</LanguageStandard>
-      <AdditionalIncludeDirectories>../vendor/SDL/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../vendor/SDL/include;../vendor/imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,6 +91,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\vendor\imgui\backends\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="..\vendor\imgui\backends\imgui_impl_sdlrenderer3.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="game.cpp" />
   </ItemGroup>
   <ItemGroup>
