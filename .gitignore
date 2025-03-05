@@ -4,6 +4,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 
+*.sln.DotSettings.user
 .idea/
 
 x64/
