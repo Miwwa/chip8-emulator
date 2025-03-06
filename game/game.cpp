@@ -2,6 +2,7 @@
 
 #include "SDL3/SDL.h"
 #include "imgui.h"
+#include "../chip8cpp/Chip8Core.h"
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
 

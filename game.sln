@@ -4,6 +4,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL", "vendor\SDL\VisualC\SDL\SDL.vcxproj", "{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chip8cpp", "chip8cpp\chip8cpp.vcxproj", "{6684F425-722A-45DF-A5E9-EE214E42E6E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -18,5 +20,9 @@ Global
 		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Debug|x64.Build.0 = Debug|x64
 		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|x64.ActiveCfg = Release|x64
 		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|x64.Build.0 = Release|x64
+		{6684F425-722A-45DF-A5E9-EE214E42E6E0}.Debug|x64.ActiveCfg = Debug|x64
+		{6684F425-722A-45DF-A5E9-EE214E42E6E0}.Debug|x64.Build.0 = Debug|x64
+		{6684F425-722A-45DF-A5E9-EE214E42E6E0}.Release|x64.ActiveCfg = Release|x64
+		{6684F425-722A-45DF-A5E9-EE214E42E6E0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal
