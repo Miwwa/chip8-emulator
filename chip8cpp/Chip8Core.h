@@ -23,6 +23,11 @@ namespace chip8
         {
             return message.c_str();
         }
+
+        uint16_t get_opcode() const
+        {
+            return opcode;
+        }
     };
 
     class WaitForKeyCommand
