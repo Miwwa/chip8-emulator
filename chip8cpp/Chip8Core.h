@@ -11,15 +11,17 @@ namespace chip8
     class UnknownOpcodeException : public std::exception
     {
         uint16_t opcode;
+        std::string message;
 
     public:
         UnknownOpcodeException(uint16_t opcode): opcode(opcode)
         {
+            message = std::format("Unknown opcode: 0x{:04X}", opcode);
         }
 
         const char* what() const noexcept override
         {
-            return std::format("Unknown upcode: {:#06x}", opcode).c_str();
+            return message.c_str();
         }
     };
 
