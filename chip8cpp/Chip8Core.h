@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <format>
+#include <span>
 
 #include "Chip8State.h"
 #include "effolkronium/random.hpp"
@@ -64,5 +65,10 @@ namespace chip8
         void emulate_cycle();
         void timers_tick();
         void set_key(uint8_t key, bool pressed);
+
+        const Chip8State& get_state() const
+        {
+            return state;
+        }
     };
 }

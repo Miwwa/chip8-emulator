@@ -1,5 +1,6 @@
 {
   "dependencies": [
-    "effolkronium-random"
+    "effolkronium-random",
+    "gtest"
   ]
 }
