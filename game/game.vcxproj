@@ -102,6 +102,7 @@
     <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="platform\filesystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\chip8cpp\chip8cpp.vcxproj">
@@ -112,6 +113,9 @@
       <Project>{81ce8daf-ebb2-4761-8e45-b71abcca8c68}</Project>
       <Name>SDL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="platform\filesystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
