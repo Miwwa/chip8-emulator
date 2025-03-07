@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <stdexcept>
+#include <unordered_map>
 
 #include "SDL3/SDL.h"
 #include "imgui.h"
@@ -11,6 +12,13 @@
 constexpr uint64_t fixed_tps = 60;
 constexpr uint64_t fixed_delta_time_ns = 1'000'000'000 / fixed_tps;
 constexpr uint64_t max_delta_time_ns = 100'000'000;
+
+const std::unordered_map<SDL_Keycode, uint8_t> key_map = {
+    {SDLK_1, 0x1}, {SDLK_2, 0x2}, {SDLK_3, 0x3}, {SDLK_4, 0xC},
+    {SDLK_Q, 0x4}, {SDLK_W, 0x5}, {SDLK_E, 0x6}, {SDLK_R, 0xD},
+    {SDLK_A, 0x7}, {SDLK_S, 0x8}, {SDLK_D, 0x9}, {SDLK_F, 0xE},
+    {SDLK_Z, 0xA}, {SDLK_X, 0x0}, {SDLK_C, 0xB}, {SDLK_V, 0xF},
+};
 
 struct Application
 {
@@ -113,6 +121,26 @@ int main(int argc, char* argv[])
             if (event.type == SDL_EVENT_QUIT || (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE))
             {
                 shouldQuit = true;
+            }
+            
+            if (core.has_value())
+            {
+                if (event.type == SDL_EVENT_KEY_DOWN)
+                {
+                    if (key_map.contains(event.key.key))
+                    {
+                        auto key_index = key_map.at(event.key.key);
+                        core->set_key(key_index, true);
+                    }
+                }
+                if (event.type == SDL_EVENT_KEY_UP)
+                {
+                    if (key_map.contains(event.key.key))
+                    {
+                        auto key_index = key_map.at(event.key.key);
+                        core->set_key(key_index, false);
+                    }
+                }
             }
         }
 
