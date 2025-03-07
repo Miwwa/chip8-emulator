@@ -292,17 +292,17 @@ namespace chip8
                 break;
             case 0x55:
                 // FX55 Store the values of registers V0 to VX inclusive in memory starting at address I. I is set to I + X + 1 after operation
-                for (uint16_t i = 0; i <= x; i++)
+                for (uint8_t i = 0; i <= x; i++)
                 {
-                    state.ram[state.i + 1] = state.v[i];
+                    state.ram[state.i + i] = state.v[i];
                 }
                 state.i += x + 1;
                 break;
             case 0x65:
                 // FX65 Fill registers V0 to VX inclusive with the values stored in memory starting at address I. I is set to I + X + 1 after operation
-                for (uint16_t i = 0; i <= x; i++)
+                for (uint8_t i = 0; i <= x; i++)
                 {
-                    state.v[i] = state.ram[state.i + 1];
+                    state.v[i] = state.ram[state.i + i];
                 }
                 state.i += x + 1;
                 break;
