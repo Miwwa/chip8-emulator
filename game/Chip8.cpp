@@ -13,10 +13,15 @@ namespace
         {SDLK_A, 0x7}, {SDLK_S, 0x8}, {SDLK_D, 0x9}, {SDLK_F, 0xE},
         {SDLK_Z, 0xA}, {SDLK_X, 0x0}, {SDLK_C, 0xB}, {SDLK_V, 0xF},
     };
+
+    constexpr std::array palette = {0xff382b26, 0xffb8c2b9};
 }
 
 void Chip8::init()
 {
+    screen_surface = SDL_CreateSurface(chip8::screen_width, chip8::screen_height, SDL_PIXELFORMAT_RGBA8888);
+    screen_texture = SDL_CreateTextureFromSurface(renderer, screen_surface);
+    SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
 }
 
 void Chip8::process_sdl_event(SDL_Event& event)
@@ -67,18 +72,18 @@ void Chip8::render()
         return;
     }
 
-    bool is_window_open = true;
-    ImGui::Begin("Chip8 Display", &is_window_open, ImGuiWindowFlags_AlwaysAutoResize);
     for (uint16_t y = 0; y < chip8::screen_height; y++)
     {
         for (uint16_t x = 0; x < chip8::screen_width; x++)
         {
-            uint16_t pixel_index = (y * chip8::screen_width) + x;
-            const std::string s = core->get_state().display[pixel_index] == 1 ? "X" : " ";
-            ImGui::SameLine();
-            ImGui::Text(s.c_str());
+            uint16_t pixel_index = y * chip8::screen_width + x;
+            auto pixel_value = core->get_state().display[pixel_index];
+            uint32_t pixel_color = palette[pixel_value];
+            uint32_t* pixels = static_cast<uint32_t*>(screen_surface->pixels);
+            pixels[pixel_index] = pixel_color;
         }
-        ImGui::NewLine();
     }
-    ImGui::End();
+
+    SDL_UpdateTexture(screen_texture, nullptr, screen_surface->pixels, screen_surface->pitch);
+    SDL_RenderTexture(renderer, screen_texture, nullptr, nullptr);
 }

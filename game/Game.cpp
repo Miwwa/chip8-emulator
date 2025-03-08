@@ -101,8 +101,6 @@ void Game::run()
         ImGui_ImplSDLRenderer3_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::ShowDemoWindow();
-
         /* --------- render --------- */
         render();
 

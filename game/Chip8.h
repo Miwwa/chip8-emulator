@@ -10,6 +10,9 @@ private:
     std::optional<chip8::Chip8Core> core;
     bool is_emulation_running = false;
 
+    SDL_Surface* screen_surface = nullptr;
+    SDL_Texture* screen_texture = nullptr;
+    
 public:
     Chip8(int argc, char* argv[]) : Game(argc, argv)
     {
