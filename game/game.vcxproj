@@ -101,7 +101,9 @@
     <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="Chip8.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\filesystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +117,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chip8.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="platform\filesystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
