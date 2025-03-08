@@ -1,8 +1,12 @@
 ﻿#pragma once
+
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "SDL3/SDL.h"
+
+#include "WindowCreateInfo.h"
 
 constexpr uint64_t fixed_tps = 60;
 constexpr uint64_t fixed_delta_time_ns = 1'000'000'000 / fixed_tps;
@@ -17,7 +21,7 @@ protected:
     std::vector<std::string> args;
 
 public:
-    Game(int argc, char* argv[]);
+    Game(int argc, char* argv[], std::optional<window::WindowCreateInfo>);
     virtual ~Game();
 
     Game(const Game& other) = delete;

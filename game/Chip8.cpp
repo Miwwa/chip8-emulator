@@ -5,6 +5,8 @@
 #include "SDL3/SDL.h"
 #include <imgui.h>
 
+#include "platform/filesystem.h"
+
 namespace
 {
     const std::unordered_map<SDL_Keycode, uint8_t> key_map = {
@@ -22,6 +24,25 @@ void Chip8::init()
     screen_surface = SDL_CreateSurface(chip8::screen_width, chip8::screen_height, SDL_PIXELFORMAT_RGBA8888);
     screen_texture = SDL_CreateTextureFromSurface(renderer, screen_surface);
     SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
+
+
+    std::string file_to_load;
+    if (args.size() > 1)
+    {
+        // Get the ROM file path
+        file_to_load = args[1];
+        SDL_Log("ROM file path: %s", file_to_load.c_str());
+    }
+
+    if (!file_to_load.empty())
+    {
+        auto rom = platform::read_file(file_to_load.c_str());
+        if (rom.has_value())
+        {
+            core = chip8::Chip8Core(rom.value());
+            is_emulation_running = true;
+        }
+    }
 }
 
 void Chip8::process_sdl_event(SDL_Event& event)

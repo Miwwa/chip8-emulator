@@ -5,7 +5,10 @@
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
 
-Game::Game(int argc, char* argv[])
+Game::Game(
+    int argc, char* argv[],
+    std::optional<window::WindowCreateInfo> window_create_info
+)
 {
     // construct args vector for future use
     for (int i = 0; i < argc; i++)
@@ -19,11 +22,21 @@ Game::Game(int argc, char* argv[])
         throw std::runtime_error(SDL_GetError());
     }
 
+    if (!window_create_info.has_value())
+    {
+        window_create_info = window::WindowCreateInfo{
+            .title = "SDL Game",
+            .width = 1280,
+            .height = 720,
+        };
+    }
+
+    auto window_flags = SDL_WINDOW_HIDDEN;
     bool isWindowCreated = SDL_CreateWindowAndRenderer(
-        "Game",
-        1920,
-        960,
-        0,
+        window_create_info->title.c_str(),
+        window_create_info->width,
+        window_create_info->height,
+        window_flags,
         &window,
         &renderer
     );
@@ -62,6 +75,8 @@ Game::~Game()
 void Game::run()
 {
     init();
+
+    SDL_ShowWindow(window);
 
     uint64_t current_time = SDL_GetTicksNS();
     uint64_t accumulator = 0;
