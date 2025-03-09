@@ -119,6 +119,7 @@ void Game::run()
         uint64_t new_time = SDL_GetTicksNS();
         uint64_t delta_time_ns = new_time - current_time;
         delta_time_ns = std::min(delta_time_ns, max_delta_time_ns);
+        current_time = new_time;
 
         accumulator += delta_time_ns;
         while (accumulator >= fixed_delta_time_ns)
