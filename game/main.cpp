@@ -1,7 +1,9 @@
 #include "SDL3/SDL.h"
+#include "SDL3/SDL_main.h"
+
 #include "Chip8.h"
 
-int main(int argc, char* argv[])
+int SDL_main(int argc, char* argv[])
 {
     try
     {
@@ -13,6 +15,6 @@ int main(int argc, char* argv[])
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s", e.what());
         return 1;
     }
-    
+
     return 0;
 }

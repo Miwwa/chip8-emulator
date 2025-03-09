@@ -105,6 +105,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\filesystem.cpp" />
+    <ClCompile Include="platform\SdlException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\chip8cpp\chip8cpp.vcxproj">
@@ -120,6 +121,7 @@
     <ClInclude Include="Chip8.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="platform\filesystem.h" />
+    <ClInclude Include="platform\SdlException.h" />
     <ClInclude Include="WindowCreateInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

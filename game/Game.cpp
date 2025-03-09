@@ -4,6 +4,9 @@
 
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
+#include "platform/SdlException.h"
+
+using namespace sdl;
 
 Game::Game(
     int argc, char* argv[],
@@ -16,11 +19,7 @@ Game::Game(
         this->args.emplace_back(argv[i]);
     }
 
-    // SDL init
-    if (!SDL_Init(SDL_INIT_VIDEO))
-    {
-        throw std::runtime_error(SDL_GetError());
-    }
+    _sdl_init();
 
     if (!window_create_info.has_value())
     {
@@ -42,12 +41,12 @@ Game::Game(
     );
     if (!isWindowCreated)
     {
-        throw std::runtime_error(SDL_GetError());
+        throw SdlException("Window creation failed");
     }
 
     if (!SDL_SetRenderVSync(renderer, 1))
     {
-        throw std::runtime_error(SDL_GetError());
+        throw SdlException("Set Render VSync to 1 failed");
     }
 
     IMGUI_CHECKVERSION();
@@ -72,6 +71,32 @@ Game::~Game()
     SDL_Quit();
 }
 
+void Game::_sdl_init()
+{
+    auto sdl_flags = SDL_INIT_VIDEO | SDL_INIT_GAMEPAD;
+    if (!SDL_Init(sdl_flags))
+    {
+        throw SdlException("SDL Init failed");
+    }
+}
+
+void Game::_process_sdl_event(const SDL_Event& event)
+{
+    switch (event.type)
+    {
+    case SDL_EVENT_QUIT:
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDL_EVENT_QUIT");
+        should_quit = true;
+        break;
+    case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDL_EVENT_WINDOW_CLOSE_REQUESTED");
+        should_quit = true;
+        break;
+    default:
+        break;
+    }
+}
+
 void Game::run()
 {
     init();
@@ -81,18 +106,13 @@ void Game::run()
     uint64_t current_time = SDL_GetTicksNS();
     uint64_t accumulator = 0;
 
-    bool shouldQuit = false;
-    while (!shouldQuit)
+    while (!should_quit)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            if (event.type == SDL_EVENT_QUIT)
-            {
-                shouldQuit = true;
-            }
-
             ImGui_ImplSDL3_ProcessEvent(&event);
+            _process_sdl_event(event);
             process_sdl_event(event);
         }
 

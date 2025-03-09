@@ -24,7 +24,7 @@ public:
     }
 
     void init() override;
-    void process_sdl_event(SDL_Event& event) override;
+    void process_sdl_event(const SDL_Event& event) override;
     void fixed_update() override;
     void render() override;
 };

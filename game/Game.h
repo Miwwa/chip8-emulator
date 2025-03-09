@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -14,7 +15,13 @@ constexpr uint64_t max_delta_time_ns = 100'000'000;
 
 class Game
 {
+private:
+    void _sdl_init();
+    void _process_sdl_event(const SDL_Event& event);
+    
 protected:
+    bool should_quit = false;
+    
     SDL_Window* window;
     SDL_Renderer* renderer;
 
@@ -32,7 +39,7 @@ public:
     void run();
 
     virtual void init() = 0;
-    virtual void process_sdl_event(SDL_Event& event) = 0;
+    virtual void process_sdl_event(const SDL_Event& event) = 0;
     virtual void fixed_update() = 0;
     virtual void render() = 0;
 };

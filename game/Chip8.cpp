@@ -45,7 +45,7 @@ void Chip8::init()
     }
 }
 
-void Chip8::process_sdl_event(SDL_Event& event)
+void Chip8::process_sdl_event(const SDL_Event& event)
 {
     if (!core.has_value() || !is_emulation_running)
     {
