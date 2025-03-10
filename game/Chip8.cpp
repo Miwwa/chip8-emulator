@@ -156,6 +156,11 @@ void Chip8::render_menu()
 
         if (ImGui::BeginMenu("Machine"))
         {
+            if (ImGui::MenuItem("Quirks", nullptr, false, true))
+            {
+                SDL_Log("Quirks pressed");
+            }
+            ImGui::Separator();
             if (ImGui::MenuItem("Pause", "P", false, true))
             {
                 SDL_Log("Pause pressed");
