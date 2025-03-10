@@ -7,7 +7,7 @@ int SDL_main(int argc, char* argv[])
 {
     try
     {
-        Chip8 app = Chip8(argc, argv);
+        auto app = chip8::Chip8(argc, argv);
         app.run();
     }
     catch (const std::exception& e)

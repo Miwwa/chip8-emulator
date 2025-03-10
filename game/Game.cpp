@@ -9,10 +9,17 @@
 
 using namespace sdl;
 
-Game::Game(
-    int argc, char* argv[],
-    std::optional<window::WindowCreateInfo> window_create_info
-)
+Game::Game(int argc, char* argv[]): Game(
+    argc, argv,
+    window::WindowCreateInfo{
+        .title = "SDL Game",
+        .width = 1280,
+        .height = 720,
+    })
+{
+}
+
+Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create_info)
 {
     // construct args vector for future use
     for (int i = 0; i < argc; i++)
@@ -22,20 +29,11 @@ Game::Game(
 
     _sdl_init();
 
-    if (!window_create_info.has_value())
-    {
-        window_create_info = window::WindowCreateInfo{
-            .title = "SDL Game",
-            .width = 1280,
-            .height = 720,
-        };
-    }
-
     auto window_flags = SDL_WINDOW_HIDDEN;
     bool isWindowCreated = SDL_CreateWindowAndRenderer(
-        window_create_info->title.c_str(),
-        window_create_info->width,
-        window_create_info->height,
+        window_create_info.title.c_str(),
+        window_create_info.width,
+        window_create_info.height,
         window_flags,
         &window,
         &renderer
@@ -88,7 +86,7 @@ void Game::_imgui_init()
     font_config.PixelSnapH = true;
     std::string font_name = "ProggyClean";
     memcpy(&font_config.Name[0], font_name.c_str(), font_name.size());
-    
+
     constexpr float base_font_size = 14.0f;
     float display_scale = SDL_GetWindowDisplayScale(window);
     float font_size = floorf(base_font_size * display_scale);
