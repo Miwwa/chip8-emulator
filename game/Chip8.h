@@ -1,21 +1,11 @@
 ﻿#pragma once
 
 #include "Game.h"
+#include "Resolution.h"
 #include "../chip8cpp/Chip8Core.h"
 
 namespace chip8
 {
-    struct Resolution
-    {
-        int32_t x, y;
-    };
-
-    constexpr std::array available_resolutions = {
-        Resolution{.x = 640, .y = 320},
-        Resolution{.x = 1280, .y = 640},
-        Resolution{.x = 1920, .y = 960},
-    };
-
     class Chip8 final : public Game
     {
     private:
@@ -39,7 +29,7 @@ namespace chip8
         Chip8(int argc, char* argv[]): Game(argc, argv)
         {
             current_resolution = available_resolutions[0];
-            
+
             SDL_SetWindowTitle(window, "Chip8 Emulator");
             SDL_SetWindowSize(window, current_resolution.x, current_resolution.y);
         }

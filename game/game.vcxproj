@@ -122,6 +122,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="platform\filesystem.h" />
     <ClInclude Include="platform\SdlException.h" />
+    <ClInclude Include="Resolution.h" />
     <ClInclude Include="WindowCreateInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
