@@ -188,10 +188,8 @@ void Chip8::render_menu()
     }
 }
 
-void Chip8::render()
+void Chip8::render_screen() const
 {
-    render_menu();
-
     if (!core.has_value())
     {
         return;
@@ -211,4 +209,10 @@ void Chip8::render()
 
     SDL_UpdateTexture(screen_texture, nullptr, screen_surface->pixels, screen_surface->pitch);
     SDL_RenderTexture(renderer, screen_texture, nullptr, nullptr);
+}
+
+void Chip8::render()
+{
+    render_menu();
+    render_screen();
 }

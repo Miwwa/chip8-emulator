@@ -13,6 +13,7 @@ private:
     SDL_Texture* screen_texture = nullptr;
 
     void render_menu();
+    void render_screen() const;
     
 public:
     Chip8(int argc, char* argv[]) : Game(
