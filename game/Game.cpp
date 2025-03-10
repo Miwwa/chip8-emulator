@@ -51,6 +51,14 @@ Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create
     _imgui_init();
 }
 
+void Game::set_window_size(int32_t width, int32_t height) const
+{
+    if (!SDL_SetWindowSize(window, width, height))
+    {
+        throw SdlException("Window size change error");
+    }
+}
+
 Game::~Game()
 {
     ImGui_ImplSDLRenderer3_Shutdown();

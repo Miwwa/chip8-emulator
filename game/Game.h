@@ -32,6 +32,8 @@ protected:
     virtual void fixed_update() = 0;
     virtual void render() = 0;
 
+    void set_window_size(int32_t width, int32_t height) const;
+    
 public:
     Game(int argc, char* argv[]);
     Game(int argc, char* argv[], const window::WindowCreateInfo&);

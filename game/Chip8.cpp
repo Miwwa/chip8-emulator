@@ -184,10 +184,7 @@ namespace chip8
                     std::string label = std::format("{}x: {}x{}", i + 1, resolution.x, resolution.y);
                     if (ImGui::MenuItem(label.c_str(), nullptr, false, true))
                     {
-                        if (!SDL_SetWindowSize(window, resolution.x, resolution.y))
-                        {
-                            throw sdl::SdlException("Window size change error");
-                        }
+                        set_window_size(resolution.x, resolution.y);
                         current_resolution = resolution;
                     }
                 }
