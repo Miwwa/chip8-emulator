@@ -17,6 +17,7 @@ class Game
 {
 private:
     void _sdl_init();
+    void _imgui_init();
     void _process_sdl_event(const SDL_Event& event);
     
 protected:

@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 
+#include <imgui_internal.h>
 #include <stdexcept>
 
 #include "backends/imgui_impl_sdl3.h"
@@ -49,15 +50,7 @@ Game::Game(
         throw SdlException("Set Render VSync to 1 failed");
     }
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-    ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
-    ImGui_ImplSDLRenderer3_Init(renderer);
+    _imgui_init();
 }
 
 Game::~Game()
@@ -78,6 +71,34 @@ void Game::_sdl_init()
     {
         throw SdlException("SDL Init failed");
     }
+}
+
+void Game::_imgui_init()
+{
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    ImFontConfig font_config;
+    font_config.OversampleH = 2;
+    font_config.OversampleV = 2;
+    font_config.PixelSnapH = true;
+    std::string font_name = "ProggyClean";
+    memcpy(&font_config.Name[0], font_name.c_str(), font_name.size());
+    
+    constexpr float base_font_size = 14.0f;
+    float display_scale = SDL_GetWindowDisplayScale(window);
+    float font_size = floorf(base_font_size * display_scale);
+    SDL_Log("font_size: %f, display_scale: %f", font_size, display_scale);
+
+    font_config.SizePixels = font_size;
+    io.Fonts->AddFontDefault(&font_config);
+
+    ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
+    ImGui_ImplSDLRenderer3_Init(renderer);
 }
 
 void Game::_process_sdl_event(const SDL_Event& event)
