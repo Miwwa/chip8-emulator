@@ -86,8 +86,107 @@ void Chip8::fixed_update()
     core->timers_tick();
 }
 
+void Chip8::render_menu()
+{
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Open File", "Ctrl + O", false, true))
+            {
+                SDL_Log("Open File pressed");
+            }
+            if (ImGui::MenuItem("Close", nullptr, false, true))
+            {
+                SDL_Log("Close pressed");
+            }
+            if (ImGui::BeginMenu("Recent files", false))
+            {
+                ImGui::EndMenu();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Save state", "F5", false, true))
+            {
+                SDL_Log("Save state pressed");
+            }
+            if (ImGui::MenuItem("Load state", "F8", false, true))
+            {
+                SDL_Log("Load state pressed");
+            }
+            ImGui::Separator();
+
+            if (ImGui::BeginMenu("Quick Save", true))
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    std::string label = std::to_string(i);
+                    std::string shortcut = "Shift + " + std::to_string(i);
+                    if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true))
+                    {
+                        SDL_Log("Quick Save %d pressed", i);
+                    }
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Quick Load", true))
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    std::string label = std::to_string(i);
+                    std::string shortcut = std::to_string(i);
+                    if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true))
+                    {
+                        SDL_Log("Quick Load %d pressed", i);
+                    }
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Exit", "Alt + F4", false, true))
+            {
+                SDL_Log("Exit pressed");
+                is_emulation_running = false;
+                should_quit = true;
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::Separator();
+
+        if (ImGui::BeginMenu("Machine"))
+        {
+            if (ImGui::MenuItem("Pause", "P", false, true))
+            {
+                SDL_Log("Pause pressed");
+            }
+            if (ImGui::MenuItem("Reset", nullptr, false, true))
+            {
+                SDL_Log("Reset pressed");
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::Separator();
+
+        if (ImGui::BeginMenu("Window resolution", false))
+        {
+            ImGui::EndMenu();
+        }
+        ImGui::Separator();
+
+        if (ImGui::BeginMenu("Color palette", false))
+        {
+            ImGui::EndMenu();
+        }
+        
+        ImGui::EndMainMenuBar();
+    }
+}
+
 void Chip8::render()
 {
+    render_menu();
+
     if (!core.has_value())
     {
         return;

@@ -12,6 +12,8 @@ private:
     SDL_Surface* screen_surface = nullptr;
     SDL_Texture* screen_texture = nullptr;
 
+    void render_menu();
+    
 public:
     Chip8(int argc, char* argv[]) : Game(
         argc, argv, window::WindowCreateInfo{
