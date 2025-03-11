@@ -102,10 +102,9 @@ namespace chip8
                     // todo: open rom
                     SDL_Log("Open File pressed");
                 }
-                if (ImGui::MenuItem("Close", nullptr, false, true))
+                if (ImGui::MenuItem("Close", nullptr, false, current_rom.has_value()))
                 {
-                    // todo: close rom
-                    SDL_Log("Close pressed");
+                    close_rom();
                 }
                 if (ImGui::BeginMenu("Recent files", false))
                 {
@@ -252,6 +251,13 @@ namespace chip8
             current_rom = filepath;
             is_emulation_running = true;
         }
+    }
+
+    void Chip8::close_rom()
+    {
+        core.reset();
+        current_rom.reset();
+        is_emulation_running = false;
     }
 
     void Chip8::toggle_emulation()

@@ -26,11 +26,12 @@ namespace chip8
         void render() override;
 
         void load_rom(const std::filesystem::path& filepath);
+        void close_rom();
         void toggle_emulation();
         void reset_emulation();
-        
-        void render_menu();
+
         void render_screen() const;
+        void render_menu();
 
     public:
         Chip8(int argc, char* argv[]): Game(argc, argv)

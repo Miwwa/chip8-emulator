@@ -157,7 +157,7 @@ void Game::run()
         }
 
         // gray background
-        SDL_SetRenderDrawColor(renderer, 92, 105, 108, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
 
         ImGui_ImplSDL3_NewFrame();
