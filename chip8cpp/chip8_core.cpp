@@ -1,4 +1,4 @@
-#include "Chip8Core.h"
+#include "chip8_core.h"
 
 namespace {
     uint8_t get_bit(uint8_t value, uint8_t n) {

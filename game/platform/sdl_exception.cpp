@@ -1,4 +1,4 @@
-﻿#include "SdlException.h"
+﻿#include "sdl_exception.h"
 
 #include "SDL3/SDL_error.h"
 

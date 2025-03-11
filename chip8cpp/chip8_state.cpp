@@ -1,4 +1,4 @@
-﻿#include "Chip8State.h"
+﻿#include "chip8_state.h"
 
 #include <cassert>
 

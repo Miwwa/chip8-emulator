@@ -2,10 +2,10 @@
 
 #include <filesystem>
 
-#include "../chip8cpp/Chip8Core.h"
-#include "ColorPalettes.h"
-#include "Game.h"
-#include "Resolution.h"
+#include "../chip8cpp/chip8_core.h"
+#include "color_palettes.h"
+#include "game.h"
+#include "resolution.h"
 
 namespace chip8 {
     class Chip8 final : public Game {

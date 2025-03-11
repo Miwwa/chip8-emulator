@@ -1,7 +1,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include "../chip8cpp/Chip8Core.h"
+#include "../chip8cpp/chip8_core.h"
 #include "gtest/gtest.h"
 
 namespace {

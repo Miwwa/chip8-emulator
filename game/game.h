@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "SDL3/SDL.h"
-#include "WindowCreateInfo.h"
+#include "window_create_info.h"
 
 constexpr uint64_t fixed_tps = 60;
 constexpr uint64_t fixed_delta_time_ns = 1'000'000'000 / fixed_tps;

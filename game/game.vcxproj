@@ -101,11 +101,11 @@
     <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Chip8.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="chip8.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\filesystem.cpp" />
-    <ClCompile Include="platform\SdlException.cpp" />
+    <ClCompile Include="platform\sdl_exception.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\chip8cpp\chip8cpp.vcxproj">
@@ -118,13 +118,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Chip8.h" />
-    <ClInclude Include="ColorPalettes.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="chip8.h" />
+    <ClInclude Include="color_palettes.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="platform\filesystem.h" />
-    <ClInclude Include="platform\SdlException.h" />
-    <ClInclude Include="Resolution.h" />
-    <ClInclude Include="WindowCreateInfo.h" />
+    <ClInclude Include="platform\sdl_exception.h" />
+    <ClInclude Include="resolution.h" />
+    <ClInclude Include="window_create_info.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

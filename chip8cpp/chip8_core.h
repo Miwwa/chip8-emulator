@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <format>
 
-#include "Chip8State.h"
+#include "chip8_state.h"
 #include "effolkronium/random.hpp"
 
 namespace chip8 {

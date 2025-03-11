@@ -1,11 +1,11 @@
-﻿#include "Chip8.h"
+﻿#include "chip8.h"
 
 #include <filesystem>
 #include <imgui.h>
 #include <unordered_map>
 
 #include "platform/filesystem.h"
-#include "platform/SdlException.h"
+#include "platform/sdl_exception.h"
 #include "SDL3/SDL.h"
 
 namespace {

@@ -91,12 +91,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Chip8Core.h" />
-    <ClInclude Include="Chip8State.h" />
+    <ClInclude Include="chip8_core.h" />
+    <ClInclude Include="chip8_state.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Chip8Core.cpp" />
-    <ClCompile Include="Chip8State.cpp" />
+    <ClCompile Include="chip8_core.cpp" />
+    <ClCompile Include="chip8_state.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
