@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <format>
-#include <span>
 
 #include "Chip8State.h"
 #include "effolkronium/random.hpp"
