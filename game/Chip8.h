@@ -22,6 +22,8 @@ namespace chip8
         void fixed_update() override;
         void render() override;
 
+        void toggle_emulation();
+        
         void render_menu();
         void render_screen() const;
 

@@ -50,25 +50,31 @@ namespace chip8
 
     void Chip8::process_sdl_event(const SDL_Event& event)
     {
-        if (!core.has_value() || !is_emulation_running)
-        {
-            return;
-        }
-
         if (event.type == SDL_EVENT_KEY_DOWN)
         {
-            if (key_map.contains(event.key.key))
+            if (core.has_value() && is_emulation_running)
             {
-                auto key_index = key_map.at(event.key.key);
-                core->set_key(key_index, true);
+                if (key_map.contains(event.key.key))
+                {
+                    auto key_index = key_map.at(event.key.key);
+                    core->set_key(key_index, true);
+                }
             }
         }
         if (event.type == SDL_EVENT_KEY_UP)
         {
-            if (key_map.contains(event.key.key))
+            if (core.has_value() && is_emulation_running)
             {
-                auto key_index = key_map.at(event.key.key);
-                core->set_key(key_index, false);
+                if (key_map.contains(event.key.key))
+                {
+                    auto key_index = key_map.at(event.key.key);
+                    core->set_key(key_index, false);
+                }
+            }
+
+            if (event.key.key == SDLK_P)
+            {
+                toggle_emulation();
             }
         }
     }
@@ -164,9 +170,11 @@ namespace chip8
                     SDL_Log("Quirks pressed");
                 }
                 ImGui::Separator();
-                if (ImGui::MenuItem("Pause", "P", false, true))
+
+                std::string pause_label = is_emulation_running ? "Pause" : "Play";
+                if (ImGui::MenuItem(pause_label.c_str(), "P", false, true))
                 {
-                    SDL_Log("Pause pressed");
+                    toggle_emulation();
                 }
                 if (ImGui::MenuItem("Reset", nullptr, false, true))
                 {
@@ -228,5 +236,10 @@ namespace chip8
     {
         render_menu();
         render_screen();
+    }
+
+    void Chip8::toggle_emulation()
+    {
+        is_emulation_running = !is_emulation_running;
     }
 }
