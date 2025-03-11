@@ -17,8 +17,6 @@ namespace
         {SDLK_A, 0x7}, {SDLK_S, 0x8}, {SDLK_D, 0x9}, {SDLK_F, 0xE},
         {SDLK_Z, 0xA}, {SDLK_X, 0x0}, {SDLK_C, 0xB}, {SDLK_V, 0xF},
     };
-
-    constexpr std::array palette = {0xff382b26, 0xffb8c2b9};
 }
 
 namespace chip8
@@ -26,6 +24,7 @@ namespace chip8
     Chip8::Chip8(int argc, char* argv[]): Game(argc, argv)
     {
         current_resolution = available_resolutions[0];
+        current_palette = available_palettes[0];
 
         SDL_SetWindowTitle(window, "Chip8 Emulator");
         SDL_SetWindowSize(window, current_resolution.x, current_resolution.y);
@@ -207,9 +206,15 @@ namespace chip8
                 ImGui::EndMenu();
             }
 
-            if (ImGui::BeginMenu("Color palette", false))
+            if (ImGui::BeginMenu("Color palette", true))
             {
-                // todo: color palettes
+                for (const auto& palette : available_palettes)
+                {
+                    if (ImGui::MenuItem(palette.name.data(), nullptr, false, true))
+                    {
+                        current_palette = palette;
+                    }
+                }
                 ImGui::EndMenu();
             }
 
@@ -236,7 +241,7 @@ namespace chip8
             {
                 uint16_t pixel_index = y * screen_width + x;
                 auto pixel_value = core->get_state().display[pixel_index];
-                uint32_t pixel_color = palette[pixel_value];
+                uint32_t pixel_color = current_palette.colors[pixel_value];
                 uint32_t* pixels = static_cast<uint32_t*>(screen_surface->pixels);
                 pixels[pixel_index] = pixel_color;
             }

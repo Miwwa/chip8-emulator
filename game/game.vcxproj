@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chip8.h" />
+    <ClInclude Include="ColorPalettes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="platform\filesystem.h" />
     <ClInclude Include="platform\SdlException.h" />

@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "ColorPalettes.h"
 #include "Game.h"
 #include "Resolution.h"
 #include "../chip8cpp/Chip8Core.h"
@@ -18,9 +19,10 @@ namespace chip8
         bool is_emulation_running = false;
         bool should_show_main_menu = false;
 
-        Resolution current_resolution;
-        float main_menu_height = 0;
         std::optional<std::filesystem::path> current_rom;
+        Resolution current_resolution;
+        ColorPalette current_palette;
+        float main_menu_height = 0;
 
         void init() override;
         void process_sdl_event(const SDL_Event& event) override;
