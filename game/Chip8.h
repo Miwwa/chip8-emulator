@@ -25,6 +25,7 @@ namespace chip8
         void fixed_update() override;
         void render() override;
 
+        void start_open_file_dialog();
         void load_rom(const std::filesystem::path& filepath);
         void close_rom();
         void toggle_emulation();

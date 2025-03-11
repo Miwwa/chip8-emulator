@@ -99,8 +99,7 @@ namespace chip8
             {
                 if (ImGui::MenuItem("Open File", "Ctrl + O", false, true))
                 {
-                    // todo: open rom
-                    SDL_Log("Open File pressed");
+                    start_open_file_dialog();
                 }
                 if (ImGui::MenuItem("Close", nullptr, false, current_rom.has_value()))
                 {
@@ -240,6 +239,34 @@ namespace chip8
     {
         render_menu();
         render_screen();
+    }
+
+    void Chip8::start_open_file_dialog()
+    {
+        auto callback = [](void* userdata, const char* const* filelist, int filter)
+        {
+            if (!filelist)
+            {
+                throw sdl::SdlException("Open file dialog error");
+            }
+            if (!*filelist)
+            {
+                SDL_Log("User did not select any files");
+                return;
+            }
+
+            auto self = static_cast<Chip8*>(userdata);
+            auto filepath = std::filesystem::path(*filelist);
+            SDL_Log("Full path to selected file: '%s'", filepath.string().c_str());
+            self->load_rom(filepath);
+        };
+        constexpr std::array filters = {
+            SDL_DialogFileFilter{"Chip8 rom", "ch8"},
+            SDL_DialogFileFilter{"All files", "*"},
+        };
+        const char* cwd = SDL_GetCurrentDirectory();
+        SDL_Log("Show Open File Dialog");
+        SDL_ShowOpenFileDialog(callback, this, window, filters.data(), filters.size(), cwd, false);
     }
 
     void Chip8::load_rom(const std::filesystem::path& filepath)
