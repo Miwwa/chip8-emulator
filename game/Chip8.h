@@ -2,19 +2,16 @@
 
 #include <filesystem>
 
+#include "../chip8cpp/Chip8Core.h"
 #include "ColorPalettes.h"
 #include "Game.h"
 #include "Resolution.h"
-#include "../chip8cpp/Chip8Core.h"
 
-namespace chip8
-{
-    class Chip8 final : public Game
-    {
-    private:
+namespace chip8 {
+    class Chip8 final : public Game {
         SDL_Surface* screen_surface = nullptr;
         SDL_Texture* screen_texture = nullptr;
-        
+
         std::optional<Chip8Core> core;
         bool is_emulation_running = false;
         bool should_show_main_menu = false;
@@ -38,7 +35,7 @@ namespace chip8
         void render_screen() const;
         void render_menu();
 
-    public:
+      public:
         Chip8(int argc, char* argv[]);
     };
-}
+} // namespace chip8

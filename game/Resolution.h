@@ -3,10 +3,8 @@
 #include <array>
 #include <cstdint>
 
-namespace chip8
-{
-    struct Resolution
-    {
+namespace chip8 {
+    struct Resolution {
         int32_t x, y;
     };
 
@@ -15,4 +13,4 @@ namespace chip8
         Resolution{.x = 1280, .y = 640},
         Resolution{.x = 1920, .y = 960},
     };
-}
+} // namespace chip8

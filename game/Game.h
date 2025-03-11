@@ -5,21 +5,18 @@
 #include <vector>
 
 #include "SDL3/SDL.h"
-
 #include "WindowCreateInfo.h"
 
 constexpr uint64_t fixed_tps = 60;
 constexpr uint64_t fixed_delta_time_ns = 1'000'000'000 / fixed_tps;
 constexpr uint64_t max_delta_time_ns = 100'000'000;
 
-class Game
-{
-private:
+class Game {
     void _sdl_init();
     void _imgui_init();
     void _process_sdl_event(const SDL_Event& event);
 
-protected:
+  protected:
     bool should_quit = false;
 
     SDL_Window* window;
@@ -33,8 +30,8 @@ protected:
     virtual void render() = 0;
 
     void set_window_size(int32_t width, int32_t height) const;
-    
-public:
+
+  public:
     Game(int argc, char* argv[]);
     Game(int argc, char* argv[], const window::WindowCreateInfo&);
 

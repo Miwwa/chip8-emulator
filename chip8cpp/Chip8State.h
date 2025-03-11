@@ -1,12 +1,11 @@
 ﻿#pragma once
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
 #include <stack>
 #include <vector>
 
-namespace chip8
-{
+namespace chip8 {
     constexpr uint8_t screen_width = 64;
     constexpr uint8_t screen_height = 32;
     constexpr uint16_t screen_size = screen_width * screen_height;
@@ -37,8 +36,7 @@ namespace chip8
         0xF0, 0x80, 0xF0, 0x80, 0x80, // F
     };
 
-    struct Chip8State
-    {
+    struct Chip8State {
         std::array<uint8_t, ram_size> ram;
         std::array<uint8_t, screen_size> display;
         std::array<uint8_t, 16> v;
@@ -51,4 +49,4 @@ namespace chip8
 
         Chip8State(std::vector<uint8_t> rom);
     };
-}
+} // namespace chip8

@@ -3,10 +3,8 @@
 #include <array>
 #include <cstdint>
 
-namespace chip8
-{
-    struct ColorPalette
-    {
+namespace chip8 {
+    struct ColorPalette {
         std::array<uint32_t, 2> colors;
         std::string_view name;
     };
@@ -19,4 +17,4 @@ namespace chip8
         ColorPalette{.colors = {0xff000000, 0xff83b07e}, .name = "Casio"},
         ColorPalette{.colors = {0xff322f29, 0xffd7d4cc}, .name = "Playdate"},
     };
-}
+} // namespace chip8

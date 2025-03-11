@@ -1,0 +1,26 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+
+BinPackArguments: false
+BinPackParameters: false
+BreakTemplateDeclarations: Yes
+ColumnLimit: 120
+IndentWidth: 4
+LineEnding: LF
+NamespaceIndentation: All
+PointerAlignment: Left
+ReflowComments: false
+TabWidth: 4
+
+SortIncludes: CaseInsensitive
+IncludeBlocks: Regroup
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IncludeCategories:
+    -   Regex: '^<.*'
+        Priority: 1
+    -   Regex: '^".*'
+        Priority: 2
+    -   Regex: '.*'
+        Priority: 3
+...

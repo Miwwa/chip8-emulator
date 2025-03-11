@@ -9,58 +9,48 @@
 
 using namespace sdl;
 
-Game::Game(int argc, char* argv[]): Game(
-    argc, argv,
-    window::WindowCreateInfo{
-        .title = "SDL Game",
-        .width = 1280,
-        .height = 720,
-    })
-{
-}
+Game::Game(int argc, char* argv[])
+    : Game(argc,
+           argv,
+           window::WindowCreateInfo{
+               .title = "SDL Game",
+               .width = 1280,
+               .height = 720,
+           }) {}
 
-Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create_info)
-{
+Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create_info) {
     // construct args vector for future use
-    for (int i = 0; i < argc; i++)
-    {
+    for (int i = 0; i < argc; i++) {
         this->args.emplace_back(argv[i]);
     }
 
     _sdl_init();
 
     auto window_flags = SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN;
-    bool isWindowCreated = SDL_CreateWindowAndRenderer(
-        window_create_info.title.c_str(),
-        window_create_info.width,
-        window_create_info.height,
-        window_flags,
-        &window,
-        &renderer
-    );
-    if (!isWindowCreated)
-    {
+    bool isWindowCreated = SDL_CreateWindowAndRenderer(window_create_info.title.c_str(),
+                                                       window_create_info.width,
+                                                       window_create_info.height,
+                                                       window_flags,
+                                                       &window,
+                                                       &renderer);
+    if (!isWindowCreated) {
         throw SdlException("Window creation failed");
     }
 
-    if (!SDL_SetRenderVSync(renderer, 1))
-    {
+    if (!SDL_SetRenderVSync(renderer, 1)) {
         throw SdlException("Set Render VSync to 1 failed");
     }
 
     _imgui_init();
 }
 
-void Game::set_window_size(int32_t width, int32_t height) const
-{
-    if (!SDL_SetWindowSize(window, width, height))
-    {
+void Game::set_window_size(int32_t width, int32_t height) const {
+    if (!SDL_SetWindowSize(window, width, height)) {
         throw SdlException("Window size change error");
     }
 }
 
-Game::~Game()
-{
+Game::~Game() {
     ImGui_ImplSDLRenderer3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
@@ -70,17 +60,14 @@ Game::~Game()
     SDL_Quit();
 }
 
-void Game::_sdl_init()
-{
+void Game::_sdl_init() {
     auto sdl_flags = SDL_INIT_VIDEO | SDL_INIT_GAMEPAD;
-    if (!SDL_Init(sdl_flags))
-    {
+    if (!SDL_Init(sdl_flags)) {
         throw SdlException("SDL Init failed");
     }
 }
 
-void Game::_imgui_init()
-{
+void Game::_imgui_init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -107,10 +94,8 @@ void Game::_imgui_init()
     ImGui_ImplSDLRenderer3_Init(renderer);
 }
 
-void Game::_process_sdl_event(const SDL_Event& event)
-{
-    switch (event.type)
-    {
+void Game::_process_sdl_event(const SDL_Event& event) {
+    switch (event.type) {
     case SDL_EVENT_QUIT:
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDL_EVENT_QUIT");
         should_quit = true;
@@ -124,8 +109,7 @@ void Game::_process_sdl_event(const SDL_Event& event)
     }
 }
 
-void Game::run()
-{
+void Game::run() {
     init();
 
     SDL_ShowWindow(window);
@@ -133,11 +117,9 @@ void Game::run()
     uint64_t current_time = SDL_GetTicksNS();
     uint64_t accumulator = 0;
 
-    while (!should_quit)
-    {
+    while (!should_quit) {
         SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
+        while (SDL_PollEvent(&event)) {
             ImGui_ImplSDL3_ProcessEvent(&event);
             _process_sdl_event(event);
             process_sdl_event(event);
@@ -149,8 +131,7 @@ void Game::run()
         current_time = new_time;
 
         accumulator += delta_time_ns;
-        while (accumulator >= fixed_delta_time_ns)
-        {
+        while (accumulator >= fixed_delta_time_ns) {
             accumulator -= fixed_delta_time_ns;
             /* --------- update --------- */
             fixed_update();
