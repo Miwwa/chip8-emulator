@@ -1,14 +1,29 @@
 ﻿#include "chip8.h"
 
 #include <filesystem>
-#include <imgui.h>
 #include <unordered_map>
 
+#include "imgui.h"
 #include "platform/filesystem.h"
 #include "platform/sdl_exception.h"
 #include "SDL3/SDL.h"
 
-namespace {
+namespace chip8 {
+    constexpr std::array available_resolutions = {
+        Resolution{.x = 640, .y = 320},
+        Resolution{.x = 1280, .y = 640},
+        Resolution{.x = 1920, .y = 960},
+    };
+
+    constexpr std::array available_palettes = {
+        ColorPalette{.colors = {0xff2e3037, 0xffebe5ce}, .name = "IBM 8503"},
+        ColorPalette{.colors = {0xff3e232c, 0xffedf6d6}, .name = "Pixel Ink"},
+        ColorPalette{.colors = {0xff051b2c, 0xff8bc8fe}, .name = "Mac Paint"},
+        ColorPalette{.colors = {0xff212c28, 0xff72a488}, .name = "Nokia 3310"},
+        ColorPalette{.colors = {0xff000000, 0xff83b07e}, .name = "Casio"},
+        ColorPalette{.colors = {0xff322f29, 0xffd7d4cc}, .name = "Playdate"},
+    };
+
     // clang-format off
     const std::unordered_map<SDL_Keycode, uint8_t> key_map = {
         {SDLK_1, 0x1}, {SDLK_2, 0x2}, {SDLK_3, 0x3}, {SDLK_4, 0xC},
@@ -17,9 +32,7 @@ namespace {
         {SDLK_Z, 0xA}, {SDLK_X, 0x0}, {SDLK_C, 0xB}, {SDLK_V, 0xF},
     };
     // clang-format on
-} // namespace
 
-namespace chip8 {
     Chip8::Chip8(int argc, char* argv[]) : Game(argc, argv) {
         current_resolution = available_resolutions[0];
         current_palette = available_palettes[0];

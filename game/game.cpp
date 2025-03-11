@@ -9,30 +9,16 @@
 
 using namespace sdl;
 
-Game::Game(int argc, char* argv[])
-    : Game(argc,
-           argv,
-           window::WindowCreateInfo{
-               .title = "SDL Game",
-               .width = 1280,
-               .height = 720,
-           }) {}
-
-Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create_info) {
+Game::Game(int argc, char* argv[]) {
     // construct args vector for future use
     for (int i = 0; i < argc; i++) {
         this->args.emplace_back(argv[i]);
     }
 
-    _sdl_init();
+    sdl_init();
 
     auto window_flags = SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN;
-    bool isWindowCreated = SDL_CreateWindowAndRenderer(window_create_info.title.c_str(),
-                                                       window_create_info.width,
-                                                       window_create_info.height,
-                                                       window_flags,
-                                                       &window,
-                                                       &renderer);
+    bool isWindowCreated = SDL_CreateWindowAndRenderer("SDL Game", 1280, 720, window_flags, &window, &renderer);
     if (!isWindowCreated) {
         throw SdlException("Window creation failed");
     }
@@ -41,7 +27,7 @@ Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create
         throw SdlException("Set Render VSync to 1 failed");
     }
 
-    _imgui_init();
+    imgui_init();
 }
 
 void Game::set_window_size(int32_t width, int32_t height) const {
@@ -60,14 +46,14 @@ Game::~Game() {
     SDL_Quit();
 }
 
-void Game::_sdl_init() {
+void Game::sdl_init() {
     auto sdl_flags = SDL_INIT_VIDEO | SDL_INIT_GAMEPAD;
     if (!SDL_Init(sdl_flags)) {
         throw SdlException("SDL Init failed");
     }
 }
 
-void Game::_imgui_init() {
+void Game::imgui_init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -94,7 +80,7 @@ void Game::_imgui_init() {
     ImGui_ImplSDLRenderer3_Init(renderer);
 }
 
-void Game::_process_sdl_event(const SDL_Event& event) {
+void Game::process_engine_sdl_events(const SDL_Event& event) {
     switch (event.type) {
     case SDL_EVENT_QUIT:
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDL_EVENT_QUIT");
@@ -121,7 +107,7 @@ void Game::run() {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             ImGui_ImplSDL3_ProcessEvent(&event);
-            _process_sdl_event(event);
+            process_engine_sdl_events(event);
             process_sdl_event(event);
         }
 

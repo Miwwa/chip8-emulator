@@ -3,11 +3,18 @@
 #include <filesystem>
 
 #include "../chip8cpp/chip8_core.h"
-#include "color_palettes.h"
 #include "game.h"
-#include "resolution.h"
 
 namespace chip8 {
+    struct Resolution {
+        int32_t x, y;
+    };
+
+    struct ColorPalette {
+        std::array<uint32_t, 2> colors;
+        std::string_view name;
+    };
+
     class Chip8 final : public Game {
         SDL_Surface* screen_surface = nullptr;
         SDL_Texture* screen_texture = nullptr;

@@ -119,12 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chip8.h" />
-    <ClInclude Include="color_palettes.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="platform\filesystem.h" />
     <ClInclude Include="platform\sdl_exception.h" />
-    <ClInclude Include="resolution.h" />
-    <ClInclude Include="window_create_info.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
