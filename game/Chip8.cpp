@@ -103,10 +103,12 @@ namespace chip8
             {
                 if (ImGui::MenuItem("Open File", "Ctrl + O", false, true))
                 {
+                    // todo: open rom
                     SDL_Log("Open File pressed");
                 }
                 if (ImGui::MenuItem("Close", nullptr, false, true))
                 {
+                    // todo: close rom
                     SDL_Log("Close pressed");
                 }
                 if (ImGui::BeginMenu("Recent files", false))
@@ -117,10 +119,12 @@ namespace chip8
 
                 if (ImGui::MenuItem("Save state", "F5", false, true))
                 {
+                    // todo: save custom state
                     SDL_Log("Save state pressed");
                 }
                 if (ImGui::MenuItem("Load state", "F8", false, true))
                 {
+                    // todo: load custom state
                     SDL_Log("Load state pressed");
                 }
                 ImGui::Separator();
@@ -133,6 +137,7 @@ namespace chip8
                         std::string shortcut = "Shift + " + std::to_string(i);
                         if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true))
                         {
+                            // todo: quick save
                             SDL_Log("Quick Save %d pressed", i);
                         }
                     }
@@ -146,6 +151,7 @@ namespace chip8
                         std::string shortcut = std::to_string(i);
                         if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true))
                         {
+                            // todo: quick load
                             SDL_Log("Quick Load %d pressed", i);
                         }
                     }
@@ -167,6 +173,7 @@ namespace chip8
             {
                 if (ImGui::MenuItem("Quirks", nullptr, false, true))
                 {
+                    // todo: quirks settings
                     SDL_Log("Quirks pressed");
                 }
                 ImGui::Separator();
@@ -178,6 +185,7 @@ namespace chip8
                 }
                 if (ImGui::MenuItem("Reset", nullptr, false, true))
                 {
+                    // todo: reset machine
                     SDL_Log("Reset pressed");
                 }
                 ImGui::EndMenu();
@@ -202,6 +210,7 @@ namespace chip8
 
             if (ImGui::BeginMenu("Color palette", false))
             {
+                // todo: color palettes
                 ImGui::EndMenu();
             }
 
