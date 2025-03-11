@@ -29,7 +29,7 @@ Game::Game(int argc, char* argv[], const window::WindowCreateInfo& window_create
 
     _sdl_init();
 
-    auto window_flags = SDL_WINDOW_HIDDEN;
+    auto window_flags = SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN;
     bool isWindowCreated = SDL_CreateWindowAndRenderer(
         window_create_info.title.c_str(),
         window_create_info.width,
