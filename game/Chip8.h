@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <filesystem>
+
 #include "Game.h"
 #include "Resolution.h"
 #include "../chip8cpp/Chip8Core.h"
@@ -16,13 +18,16 @@ namespace chip8
         SDL_Texture* screen_texture = nullptr;
 
         Resolution current_resolution;
+        std::optional<std::filesystem::path> current_rom;
 
         void init() override;
         void process_sdl_event(const SDL_Event& event) override;
         void fixed_update() override;
         void render() override;
 
+        void load_rom(const std::filesystem::path& filepath);
         void toggle_emulation();
+        void reset_emulation();
         
         void render_menu();
         void render_screen() const;

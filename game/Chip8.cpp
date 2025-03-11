@@ -1,5 +1,6 @@
 ﻿#include "Chip8.h"
 
+#include <filesystem>
 #include <unordered_map>
 
 #include "SDL3/SDL.h"
@@ -39,12 +40,7 @@ namespace chip8
 
         if (!file_to_load.empty())
         {
-            auto rom = platform::read_file(file_to_load.c_str());
-            if (rom.has_value())
-            {
-                core = chip8::Chip8Core(rom.value());
-                is_emulation_running = true;
-            }
+            load_rom(std::filesystem::path(file_to_load));
         }
     }
 
@@ -179,14 +175,13 @@ namespace chip8
                 ImGui::Separator();
 
                 std::string pause_label = is_emulation_running ? "Pause" : "Play";
-                if (ImGui::MenuItem(pause_label.c_str(), "P", false, true))
+                if (ImGui::MenuItem(pause_label.c_str(), "P", false, current_rom.has_value()))
                 {
                     toggle_emulation();
                 }
-                if (ImGui::MenuItem("Reset", nullptr, false, true))
+                if (ImGui::MenuItem("Reset", nullptr, false, current_rom.has_value()))
                 {
-                    // todo: reset machine
-                    SDL_Log("Reset pressed");
+                    reset_emulation();
                 }
                 ImGui::EndMenu();
             }
@@ -225,11 +220,11 @@ namespace chip8
             return;
         }
 
-        for (uint16_t y = 0; y < chip8::screen_height; y++)
+        for (uint16_t y = 0; y < screen_height; y++)
         {
-            for (uint16_t x = 0; x < chip8::screen_width; x++)
+            for (uint16_t x = 0; x < screen_width; x++)
             {
-                uint16_t pixel_index = y * chip8::screen_width + x;
+                uint16_t pixel_index = y * screen_width + x;
                 auto pixel_value = core->get_state().display[pixel_index];
                 uint32_t pixel_color = palette[pixel_value];
                 uint32_t* pixels = static_cast<uint32_t*>(screen_surface->pixels);
@@ -247,8 +242,28 @@ namespace chip8
         render_screen();
     }
 
+    void Chip8::load_rom(const std::filesystem::path& filepath)
+    {
+        assert(std::filesystem::exists(filepath) && "File not exists");
+        auto rom = platform::read_file(filepath);
+        if (rom.has_value())
+        {
+            core = Chip8Core(rom.value());
+            current_rom = filepath;
+            is_emulation_running = true;
+        }
+    }
+
     void Chip8::toggle_emulation()
     {
         is_emulation_running = !is_emulation_running;
+    }
+
+    void Chip8::reset_emulation()
+    {
+        if (current_rom.has_value())
+        {
+            load_rom(current_rom.value());
+        }
     }
 }
