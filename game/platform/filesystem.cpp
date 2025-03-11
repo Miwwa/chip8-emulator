@@ -2,14 +2,11 @@
 
 #include <SDL3/SDL.h>
 
-namespace platform
-{
-    std::expected<std::vector<uint8_t>, std::string> read_file(const char* filepath)
-    {
+namespace platform {
+    std::expected<std::vector<uint8_t>, std::string> read_file(const char* filepath) {
         size_t size;
         void* data = SDL_LoadFile(filepath, &size);
-        if (!data)
-        {
+        if (!data) {
             return std::unexpected{SDL_GetError()};
         }
 
@@ -18,8 +15,7 @@ namespace platform
         return result;
     }
 
-    std::expected<std::vector<uint8_t>, std::string> read_file(const std::filesystem::path& filepath)
-    {
+    std::expected<std::vector<uint8_t>, std::string> read_file(const std::filesystem::path& filepath) {
         return read_file(filepath.string().c_str());
     }
-}
+} // namespace platform

@@ -4,12 +4,10 @@
 
 #include <format>
 
-sdl::SdlException::SdlException(const std::string& message)
-{
+sdl::SdlException::SdlException(const std::string& message) {
     formatted_message = std::format("[SDL Error] {}: {}", message, SDL_GetError());
 }
 
-const char* sdl::SdlException::what() const noexcept
-{
+const char* sdl::SdlException::what() const noexcept {
     return formatted_message.c_str();
 }
