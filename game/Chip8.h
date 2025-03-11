@@ -11,13 +11,15 @@ namespace chip8
     class Chip8 final : public Game
     {
     private:
-        std::optional<Chip8Core> core;
-        bool is_emulation_running = false;
-
         SDL_Surface* screen_surface = nullptr;
         SDL_Texture* screen_texture = nullptr;
+        
+        std::optional<Chip8Core> core;
+        bool is_emulation_running = false;
+        bool should_show_main_menu = false;
 
         Resolution current_resolution;
+        float main_menu_height = 0;
         std::optional<std::filesystem::path> current_rom;
 
         void init() override;
@@ -35,12 +37,6 @@ namespace chip8
         void render_menu();
 
     public:
-        Chip8(int argc, char* argv[]): Game(argc, argv)
-        {
-            current_resolution = available_resolutions[0];
-
-            SDL_SetWindowTitle(window, "Chip8 Emulator");
-            SDL_SetWindowSize(window, current_resolution.x, current_resolution.y);
-        }
+        Chip8(int argc, char* argv[]);
     };
 }

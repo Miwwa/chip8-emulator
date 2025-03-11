@@ -23,9 +23,17 @@ namespace
 
 namespace chip8
 {
+    Chip8::Chip8(int argc, char* argv[]): Game(argc, argv)
+    {
+        current_resolution = available_resolutions[0];
+
+        SDL_SetWindowTitle(window, "Chip8 Emulator");
+        SDL_SetWindowSize(window, current_resolution.x, current_resolution.y);
+    }
+
     void Chip8::init()
     {
-        screen_surface = SDL_CreateSurface(chip8::screen_width, chip8::screen_height, SDL_PIXELFORMAT_RGBA8888);
+        screen_surface = SDL_CreateSurface(screen_width, screen_height, SDL_PIXELFORMAT_RGBA8888);
         screen_texture = SDL_CreateTextureFromSurface(renderer, screen_surface);
         SDL_SetTextureScaleMode(screen_texture, SDL_SCALEMODE_NEAREST);
 
@@ -162,7 +170,6 @@ namespace chip8
                 }
                 ImGui::EndMenu();
             }
-            ImGui::Separator();
 
             if (ImGui::BeginMenu("Machine"))
             {
@@ -184,7 +191,6 @@ namespace chip8
                 }
                 ImGui::EndMenu();
             }
-            ImGui::Separator();
 
             if (ImGui::BeginMenu("Window resolution", true))
             {
@@ -194,13 +200,12 @@ namespace chip8
                     std::string label = std::format("{}x: {}x{}", i + 1, resolution.x, resolution.y);
                     if (ImGui::MenuItem(label.c_str(), nullptr, false, true))
                     {
-                        set_window_size(resolution.x, resolution.y);
+                        set_window_size(resolution.x, resolution.y + static_cast<int32_t>(main_menu_height));
                         current_resolution = resolution;
                     }
                 }
                 ImGui::EndMenu();
             }
-            ImGui::Separator();
 
             if (ImGui::BeginMenu("Color palette", false))
             {
@@ -208,6 +213,12 @@ namespace chip8
                 ImGui::EndMenu();
             }
 
+            float height = ImGui::GetWindowHeight();
+            if (abs(height - main_menu_height) > std::numeric_limits<float>::epsilon())
+            {
+                main_menu_height = height;
+                set_window_size(current_resolution.x, current_resolution.y + static_cast<int32_t>(height));
+            }
             ImGui::EndMainMenuBar();
         }
     }
@@ -231,8 +242,14 @@ namespace chip8
             }
         }
 
+        SDL_FRect dst = {
+            .x = 0,
+            .y = main_menu_height,
+            .w = static_cast<float>(current_resolution.x),
+            .h = static_cast<float>(current_resolution.y),
+        };
         SDL_UpdateTexture(screen_texture, nullptr, screen_surface->pixels, screen_surface->pitch);
-        SDL_RenderTexture(renderer, screen_texture, nullptr, nullptr);
+        SDL_RenderTexture(renderer, screen_texture, nullptr, &dst);
     }
 
     void Chip8::render()
