@@ -86,13 +86,12 @@ namespace chip8 {
             return;
         }
 
-        constexpr uint32_t max_cycles_per_second = 700;
-
-        uint64_t cycles_to_emulate = fixed_delta_time_ns / max_cycles_per_second;
-        uint64_t cycles_passed     = 0;
-
-        while (cycles_passed < cycles_to_emulate && !core->emulate_cycle()) {
-            cycles_passed++;
+        constexpr uint32_t cycles_per_second = 700;
+        uint64_t cycles_to_emulate = fixed_delta_time_ns / cycles_per_second;
+        for (uint32_t i = 0; i < cycles_to_emulate; i++) {
+            if (core->emulate_cycle()) {
+                break;
+            }
         }
         core->timers_tick();
     }
