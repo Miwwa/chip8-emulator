@@ -2,6 +2,10 @@
 Language: Cpp
 BasedOnStyle: LLVM
 
+AlignConsecutiveAssignments:
+    Enabled: true
+AlignConsecutiveMacros:
+    Enabled: true
 BinPackArguments: false
 BinPackParameters: false
 BreakTemplateDeclarations: Yes

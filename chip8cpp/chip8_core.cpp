@@ -4,7 +4,7 @@ namespace {
     uint8_t get_bit(uint8_t value, uint8_t n) {
         assert(n < 8 && "Bit index out of range");
         uint8_t shift = 7 - n;
-        uint8_t mask = static_cast<uint8_t>(1 << shift);
+        uint8_t mask  = static_cast<uint8_t>(1 << shift);
         return (value & mask) >> shift;
     }
 } // namespace
@@ -12,7 +12,7 @@ namespace {
 namespace chip8 {
     void WaitForKeyCommand::execute(Chip8State& state, uint8_t x) {
         if (waitState == wait_state::none) {
-            waitState = wait_state::waiting_for_key_pressed;
+            waitState   = wait_state::waiting_for_key_pressed;
             keysOnStart = state.keys;
             state.pc -= 2;
             return;
@@ -22,7 +22,7 @@ namespace chip8 {
             for (uint8_t i = 0; i < 16; i++) {
                 if (keysOnStart[i] == 0 && state.keys[i] == 1) {
                     waitForReleaseOfKey = i;
-                    waitState = wait_state::waiting_for_key_released;
+                    waitState           = wait_state::waiting_for_key_released;
                     break;
                 }
             }
@@ -32,7 +32,7 @@ namespace chip8 {
 
         if (waitState == wait_state::waiting_for_key_released) {
             if (state.keys[waitForReleaseOfKey] == 0) {
-                waitState = wait_state::none;
+                waitState  = wait_state::none;
                 state.v[x] = waitForReleaseOfKey;
             } else {
                 state.pc -= 2;
@@ -52,8 +52,8 @@ namespace chip8 {
             uint8_t sprite_byte = state.ram[state.i + byte_index];
             for (uint8_t bit_index = 0; bit_index < 8 && x + bit_index < screen_width; bit_index++) {
                 uint32_t display_index = x + bit_index + (y + byte_index) * screen_width;
-                uint8_t sprite_pixel = get_bit(sprite_byte, bit_index);
-                uint8_t display_pixel = state.display[display_index];
+                uint8_t sprite_pixel   = get_bit(sprite_byte, bit_index);
+                uint8_t display_pixel  = state.display[display_index];
 
                 state.display[display_index] = display_pixel ^ sprite_pixel;
                 // Set VF to 01 if any set pixels are changed to unset
@@ -68,10 +68,10 @@ namespace chip8 {
         uint16_t opcode = static_cast<uint16_t>(state.ram[state.pc] << 8) | state.ram[state.pc + 1];
         state.pc += 2;
 
-        uint8_t x = (opcode & 0x0F00) >> 8;
-        uint8_t y = (opcode & 0x00F0) >> 4;
-        uint8_t n = opcode & 0x000F;
-        uint8_t nn = opcode & 0x00FF;
+        uint8_t x    = (opcode & 0x0F00) >> 8;
+        uint8_t y    = (opcode & 0x00F0) >> 4;
+        uint8_t n    = opcode & 0x000F;
+        uint8_t nn   = opcode & 0x00FF;
         uint16_t nnn = opcode & 0x0FFF;
         uint8_t flag;
 
@@ -163,24 +163,24 @@ namespace chip8 {
                 // 8XY6 - Store the value of register VY shifted right one bit in register VX. Set register VF to the
                 // least significant bit prior to the shift. VY is unchanged
                 // https://tobiasvl.github.io/blog/write-a-chip-8-emulator/#8xy6-and-8xye-shift
-                flag = get_bit(state.v[y], 7);
-                state.v[x] = state.v[y];
-                state.v[x] = state.v[x] >> 1;
+                flag         = get_bit(state.v[y], 7);
+                state.v[x]   = state.v[y];
+                state.v[x]   = state.v[x] >> 1;
                 state.v[0xf] = flag;
                 break;
             case 7:
                 // 8XY7 - Set register VX to the value of VY minus VX. Set VF to 00 if a borrow occurs. Set VF to 01 if
                 // a borrow does not occur
-                flag = state.v[y] - state.v[x] >= 0 ? 1 : 0;
-                state.v[x] = state.v[y] - state.v[x];
+                flag         = state.v[y] - state.v[x] >= 0 ? 1 : 0;
+                state.v[x]   = state.v[y] - state.v[x];
                 state.v[0xf] = flag;
                 break;
             case 0xE:
                 // 8XYE - Store the value of register VY shifted left one bit in register VX. Set register VF to the
                 // most significant bit prior to the shift. VY is unchanged
-                flag = get_bit(state.v[y], 0);
-                state.v[x] = state.v[y];
-                state.v[x] = static_cast<uint8_t>(state.v[x] << 1);
+                flag         = get_bit(state.v[y], 0);
+                state.v[x]   = state.v[y];
+                state.v[x]   = static_cast<uint8_t>(state.v[x] << 1);
                 state.v[0xf] = flag;
                 break;
             default:
@@ -267,7 +267,7 @@ namespace chip8 {
             case 0x33:
                 // FX33 Store the binary-coded decimal equivalent of the value stored in register VX at addresses I, I +
                 // 1, and I + 2
-                state.ram[state.i] = state.v[x] % 1000 / 100;
+                state.ram[state.i]     = state.v[x] % 1000 / 100;
                 state.ram[state.i + 1] = state.v[x] % 100 / 10;
                 state.ram[state.i + 2] = state.v[x] % 10;
                 break;

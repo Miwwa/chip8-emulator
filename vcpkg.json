@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "effolkronium-random",
-    "gtest"
+    "gtest",
+    "flagpp"
   ]
 }

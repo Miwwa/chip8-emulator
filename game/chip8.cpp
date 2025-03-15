@@ -103,10 +103,6 @@ namespace chip8 {
                 if (ImGui::MenuItem("Close", nullptr, false, current_rom.has_value())) {
                     close_rom();
                 }
-                if (ImGui::BeginMenu("Recent files", false)) {
-                    // todo: recent files
-                    ImGui::EndMenu();
-                }
                 ImGui::Separator();
 
                 if (ImGui::MenuItem("Save state", "F5", false, true)) {
