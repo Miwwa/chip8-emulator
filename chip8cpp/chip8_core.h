@@ -16,6 +16,7 @@ namespace chip8 {
         Clipping    = 1 << 4,
         Shifting    = 1 << 5,
         Jumping     = 1 << 6,
+        All         = 0x11,
     };
 }
 
@@ -56,7 +57,7 @@ namespace chip8 {
         Chip8State state;
         effolkronium::random_local rnd;
         WaitForKeyCommand waitForKeyCommand;
-        Chip8Quirks quirks = Chip8Quirks::None;
+        Chip8Quirks quirks = Chip8Quirks::All;
 
         void draw_sprite(uint8_t x, uint8_t y, uint8_t spriteHeight);
 

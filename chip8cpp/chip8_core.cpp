@@ -136,14 +136,23 @@ namespace chip8 {
             case 1:
                 // 8XY1 - Set VX to VX OR VY
                 state.v[x] |= state.v[y];
+                if (is_active_quirk(Chip8Quirks::VfReset)) {
+                    state.v[0xf] = 0;
+                }
                 break;
             case 2:
                 // 8XY2 - Set VX to VX AND VY
                 state.v[x] &= state.v[y];
+                if (is_active_quirk(Chip8Quirks::VfReset)) {
+                    state.v[0xf] = 0;
+                }
                 break;
             case 3:
                 // 8XY3 - Set VX to VX XOR VY
                 state.v[x] ^= state.v[y];
+                if (is_active_quirk(Chip8Quirks::VfReset)) {
+                    state.v[0xf] = 0;
+                }
                 break;
             case 4:
                 // 8XY4 - Add the value of register VY to register VX. Set VF to 01 if a carry occurs. Set VF to 00 if a
