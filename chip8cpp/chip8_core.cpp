@@ -64,7 +64,8 @@ namespace chip8 {
         }
     }
 
-    void Chip8Core::emulate_cycle() {
+    bool Chip8Core::emulate_cycle() {
+        bool should_draw = false;
         uint16_t opcode = static_cast<uint16_t>(state.ram[state.pc] << 8) | state.ram[state.pc + 1];
         state.pc += 2;
 
@@ -218,6 +219,9 @@ namespace chip8 {
         // DXYN Draw a sprite
         case 0xD000:
             draw_sprite(state.v[x], state.v[y], n);
+            if (is_active_quirk(Chip8Quirks::DisplayWait)) {
+                should_draw = true;
+            }
             break;
         case 0xE000:
             switch (nn) {
@@ -303,6 +307,8 @@ namespace chip8 {
         default:
             throw UnknownOpcodeException(opcode);
         }
+
+        return should_draw;
     }
 
     void Chip8Core::timers_tick() {

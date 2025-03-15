@@ -16,7 +16,7 @@ namespace chip8 {
         Clipping    = 1 << 4,
         Shifting    = 1 << 5,
         Jumping     = 1 << 6,
-        All         = 0x11,
+        All         = 0xff,
     };
 }
 
@@ -65,7 +65,7 @@ namespace chip8 {
         Chip8Core(const std::vector<uint8_t>& rom) : state(Chip8State(rom)) {}
         Chip8Core(const std::vector<uint8_t>& rom, Chip8Quirks quirks) : state(Chip8State(rom)), quirks(quirks) {}
 
-        void emulate_cycle();
+        bool emulate_cycle();
         void timers_tick();
         void set_key(uint8_t key, bool pressed);
 

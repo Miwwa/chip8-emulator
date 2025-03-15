@@ -35,7 +35,7 @@ namespace chip8 {
 
     Chip8::Chip8(int argc, char* argv[]) : Game(argc, argv) {
         current_resolution = available_resolutions[0];
-        current_palette = available_palettes[0];
+        current_palette    = available_palettes[0];
 
         SDL_SetWindowTitle(window, "Chip8 Emulator");
         SDL_SetWindowSize(window, current_resolution.x, current_resolution.y);
@@ -86,10 +86,13 @@ namespace chip8 {
             return;
         }
 
-        constexpr uint32_t cycles_per_second = 700;
-        uint64_t cycles_to_emulate = fixed_delta_time_ns / cycles_per_second;
-        for (uint32_t i = 0; i < cycles_to_emulate; i++) {
-            core->emulate_cycle();
+        constexpr uint32_t max_cycles_per_second = 700;
+
+        uint64_t cycles_to_emulate = fixed_delta_time_ns / max_cycles_per_second;
+        uint64_t cycles_passed     = 0;
+
+        while (cycles_passed < cycles_to_emulate && !core->emulate_cycle()) {
+            cycles_passed++;
         }
         core->timers_tick();
     }
@@ -117,7 +120,7 @@ namespace chip8 {
 
                 if (ImGui::BeginMenu("Quick Save", true)) {
                     for (int i = 0; i < 10; i++) {
-                        std::string label = std::to_string(i);
+                        std::string label    = std::to_string(i);
                         std::string shortcut = "Shift + " + std::to_string(i);
                         if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true)) {
                             // todo: quick save
@@ -128,7 +131,7 @@ namespace chip8 {
                 }
                 if (ImGui::BeginMenu("Quick Load", true)) {
                     for (int i = 0; i < 10; i++) {
-                        std::string label = std::to_string(i);
+                        std::string label    = std::to_string(i);
                         std::string shortcut = std::to_string(i);
                         if (ImGui::MenuItem(label.c_str(), shortcut.c_str(), false, true)) {
                             // todo: quick load
@@ -142,7 +145,7 @@ namespace chip8 {
                 if (ImGui::MenuItem("Exit", "Alt + F4", false, true)) {
                     SDL_Log("Exit pressed");
                     is_emulation_running = false;
-                    should_quit = true;
+                    should_quit          = true;
                 }
                 ImGui::EndMenu();
             }
@@ -167,7 +170,7 @@ namespace chip8 {
             if (ImGui::BeginMenu("Window resolution", true)) {
                 for (uint32_t i = 0; i < available_resolutions.size(); i++) {
                     const auto& resolution = available_resolutions[i];
-                    std::string label = std::format("{}x: {}x{}", i + 1, resolution.x, resolution.y);
+                    std::string label      = std::format("{}x: {}x{}", i + 1, resolution.x, resolution.y);
                     if (ImGui::MenuItem(label.c_str(), nullptr, false, true)) {
                         set_window_size(resolution.x, resolution.y + static_cast<int32_t>(main_menu_height));
                         current_resolution = resolution;
@@ -202,10 +205,10 @@ namespace chip8 {
         for (uint16_t y = 0; y < screen_height; y++) {
             for (uint16_t x = 0; x < screen_width; x++) {
                 uint16_t pixel_index = y * screen_width + x;
-                auto pixel_value = core->get_state().display[pixel_index];
+                auto pixel_value     = core->get_state().display[pixel_index];
                 uint32_t pixel_color = current_palette.colors[pixel_value];
-                uint32_t* pixels = static_cast<uint32_t*>(screen_surface->pixels);
-                pixels[pixel_index] = pixel_color;
+                uint32_t* pixels     = static_cast<uint32_t*>(screen_surface->pixels);
+                pixels[pixel_index]  = pixel_color;
             }
         }
 
@@ -234,7 +237,7 @@ namespace chip8 {
                 return;
             }
 
-            auto self = static_cast<Chip8*>(userdata);
+            auto self     = static_cast<Chip8*>(userdata);
             auto filepath = std::filesystem::path(*filelist);
             SDL_Log("Full path to selected file: '%s'", filepath.string().c_str());
             self->load_rom(filepath);
@@ -252,8 +255,8 @@ namespace chip8 {
         assert(std::filesystem::exists(filepath) && "File not exists");
         auto rom = platform::read_file(filepath);
         if (rom.has_value()) {
-            core = Chip8Core(rom.value());
-            current_rom = filepath;
+            core                 = Chip8Core(rom.value());
+            current_rom          = filepath;
             is_emulation_running = true;
         }
     }
